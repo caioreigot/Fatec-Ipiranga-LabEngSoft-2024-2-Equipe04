@@ -1,0 +1,33 @@
+<div class="w-full h-full overflow-auto">
+  <div class="flex bg-verde-header py-4 px-6">
+    <img [src]="profilePictureUrl || 'assets/foto-perfil.svg'" class="h-16 rounded-full">
+    <h1 class="text-white text-3xl self-center ml-6 font-medium">
+      Conversas
+    </h1>
+  </div>
+
+  <div class="flex flex-row px-3 justify-center border-b-black">
+    <p  class="text-verde-gramado text-center w-full font-medium border-[2px] border-b-verde-gramado border-x-white border-t-white py-2">
+      Mensagens
+    </p>
+  </div>
+
+  <div *ngIf="chatPreviews.length == 0" class="flex mx-4 my-6">
+    <span class="text-center w-full">
+      {{ chatPreviewsFetched ? 'Você não tem mensagens.' : 'Carregando...' }}
+    </span>
+  </div>
+
+  <div *ngFor="let chatPreview of chatPreviews" routerLink="/chat/{{chatPreview.talkingToId}}" class="flex mx-4 my-6">
+    <img [src]="chatPreview.userProfilePictureUrl || 'assets/foto-perfil.svg'" alt="" class="h-14 self-center bg-verde-gramado rounded-full">
+
+    <a class="flex flex-col bg-verde-mensagem p-4 mx-2 text-sm w-[90%] rounded-md" >
+      <h1 class="font-bold text-base">
+        {{ chatPreview.fullname }}
+      </h1>
+      <p class="text-sm">
+        <b class="font-medium">{{chatPreview.chatLastMessageAuthor}}:</b> {{chatPreview.chatLastMessage}}
+      </p>
+    </a>
+  </div>
+</div>

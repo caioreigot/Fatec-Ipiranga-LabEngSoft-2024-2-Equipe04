@@ -1,0 +1,57 @@
+// Custom Theming for Angular Material
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// Define uma paleta primária personalizada
+$custom-primary: mat.define-palette((
+  50: #f2f8e1,
+  100: #e0f3b3,
+  200: #cce883,
+  300: #b8db51,
+  400: #a8d427,
+  500: #2a8c00, // Cor principal
+  600: #6bd200,
+  700: #5cc600,
+  800: #4bb500,
+  900: #2a8c00,
+  contrast: (
+    500: #FFFFFF
+  )
+));
+
+// Define uma paleta de acentuação personalizada (verde)
+$custom-accent: mat.define-palette((
+  50: #f2f8e1,
+  100: #e0f3b3,
+  200: #cce883,
+  300: #b8db51,
+  400: #a8d427,
+  500: #2a8c00,
+  600: #6bd200,
+  700: #5cc600,
+  800: #4bb500,
+  900: #2a8c00,
+  contrast: (
+    500: #FFFFFF,
+    600: #FFFFFF,
+    700: #FFFFFF,
+    800: #FFFFFF,
+    900: #FFFFFF
+  )
+));
+
+$varzeou-primary: mat.define-palette($custom-primary);
+$varzeou-accent: mat.define-palette($custom-accent);
+$varzeou-warn: mat.define-palette(mat.$red-palette);
+
+// Cria o tema
+$varzeou-theme: mat.define-light-theme((
+  color: (
+    primary: $varzeou-primary,
+    accent: $varzeou-accent,
+    warn: $varzeou-warn,
+  )
+));
+
+@include mat.all-component-themes($varzeou-theme);

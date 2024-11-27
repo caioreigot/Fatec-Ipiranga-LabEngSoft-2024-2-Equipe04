@@ -1,0 +1,13 @@
+<div class="grow overflow-hidden">
+  <router-outlet></router-outlet>
+</div>
+
+<div *ngIf="currentRoute != '/' && currentRoute != '/login' && currentRoute != '/register' && !currentRoute?.includes('/confirm-account')" id="footer" class="flex flex-row items-center justify-around sticky bottom-0 h-16 max-h-16 min-h-16 border border-t-slate-300 bg-white">
+  <img routerLink="feed" routerLinkActive="bg-[#00000010]" src="assets/home.svg" class="rounded-full active:bg-slate-100 w-[62px] h-[52px]">
+  <img routerLink="search" routerLinkActive="bg-[#00000010]" src="assets/search.svg" class="rounded-full active:bg-slate-100 w-[62px] h-[52px]">
+  <button href="" class="flex self-center justify-center text-4xl py-1 my-1 text-white bg-verde-gramado w-1/5 rounded-3xl active:brightness-110">
+    +
+  </button>
+  <img routerLink="chats" routerLinkActive="bg-[#00000010]" src="assets/chats.svg" class="rounded-full active:bg-slate-100 w-[62px] h-[52px]">
+  <img routerLink="profile/me" routerLinkActive="bg-[#00000010]" src="assets/profile.svg" class="transition-all duration-100 rounded-full active:bg-slate-100 w-[62px] h-[52px]">
+</div>

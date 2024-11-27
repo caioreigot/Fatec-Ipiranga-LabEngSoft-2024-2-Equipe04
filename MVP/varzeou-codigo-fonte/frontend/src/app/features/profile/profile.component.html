@@ -1,0 +1,203 @@
+<div *ngIf="loadingProfile && !profile" class="flex flex-col items-center justify-center h-full overflow-auto">
+  <img src="assets/ripple-loading.svg" alt="" class="size-20">
+  <span class="text-sm text-[#202020]">
+    Por favor, aguarde
+  </span>
+</div>
+
+<div class="w-full h-full overflow-auto" *ngIf="profile">
+  <div class="flex flex-col" id="perfil">
+    <div *ngIf="itsOwnProfile" (click)="logout()" class="flex flex-col items-center justify-center gap-1 absolute right-4 top-4 p-2 rounded-md active:bg-[#00000025]">
+      <img src="assets/exit.svg" class="w-14 h-14 bg-verde-gramado p-2 rounded-full border-[1px] border-[#FFFFFF90]" alt="">
+      <span class="text-xs px-1 rounded-sm text-white bg-[#00000080]">
+        Sair
+      </span>
+    </div>
+
+    <img src="assets/gramado.png" alt="" class="h-[100%]">
+
+    <div class="w-[165px] h-[165px] mt-[-10rem] ml-2 translate-y-6" (click)="setUploadPictureModalVisibility(true)">
+      <div class="transition-all duration-100 opacity-0 active:opacity-100 grid place-items-center bg-[#00000090] w-[165px] h-[165px] rounded-full absolute">
+        <img src="assets/upload.svg" alt="" class="size-16">
+      </div>
+      
+      <!-- Foto do perfil -->
+      <img [src]="profile.profile_picture_url || 'assets/foto-perfil.svg'" alt="" class="w-full h-full rounded-full bg-verde-gramado" [ngClass]="!profile.profile_picture_url ? '' : 'border-2 border-verde-header'">
+    </div>
+  </div>
+
+  <div class="flex bg-verde-header justify-between mt-[-1rem] h-32">
+    <div class="flex flex-col mt-2 px-2 py-4 justify-center text-center">
+      <div class="translate-y-[10px] ml-4">
+        <h1 class="text-lg line-clamp-2 font-bold text-left tracking-wider">
+          {{profile.fullname}}
+        </h1>
+        <h2 class="text-sm font-medium text-left tracking-widest mt-[2px]">
+          {{profile.soccer_role}}
+        </h2>
+      </div>
+    </div>
+    <div *ngIf="itsOwnProfile" class="grid place-items-center h-[100%] mr-6 translate-y-2" (click)="setEditInfoModalVisibility(true)">
+      <img src="assets/edit-button.svg" alt="" class="size-12 active:scale-105 transition-all">
+    </div>
+    <div *ngIf="!itsOwnProfile" class="grid place-items-center h-[100%] mr-6 translate-y-2">
+      <div class="flex flex-row items-center justify-center gap-2">
+        <button (click)="toggleFollow()" [class.bg-[#44ac44]]="profile.following" class="px-3 py-2 text-white border-2 border-white rounded-md text-md font-bold bg-[#6BCB6B]">
+          {{ profile.following ? 'Seguindo' : 'Seguir' }}
+        </button>
+        <button [routerLink]="'/chat/' + profile.id" class="flex items-center justify-center p-2 border-2 border-white rounded-full w-16 h-12">
+          <img src="assets/chat-animated.svg" class="size-7 translate-y-[1px]" alt="">
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-row px-3">
+    <a routerLinkActive="active" (click)="inPublications = true; inGallery = false;" [class.border-b-verde-gramado]="inPublications" class="text-verde-gramado [&.active]:bg-verde-gramado [&.active]:text-white text-center w-[50%] font-medium border-[2px] border-x-white border-t-white py-2 active:brightness-110">
+      Publicações
+    </a>
+    <a routerLinkActive="active" (click)="inGallery = true; inPublications = false" [class.border-b-verde-gramado]="inGallery" class="[&.active]:border-b-verde-gramado [&.active]:text-white text-center w-[50%] flex-grow border-[2px] border-b-gray text-verde-gramado font-medium border-x-white border-t-white py-2 active:brightness-110">
+      Galeria
+    </a>
+  </div>
+
+  <div *ngIf="inPublications" class="flex flex-col w-full items-center p-3">
+    <span *ngIf="profile.posts.length == 0" class="grid place-items-center text-center text-sm w-100 mt-2">
+      Sem publicações no feed.
+    </span>
+
+    <main class="flex flex-col items-center w-[100%] max-w-[500px]">  
+      <div class="flex flex-col gap-3 w-full">
+
+        <div *ngFor="let post of profile.posts.reverse(); let postIndex = index" id="pub" class="border rounded-xl p-4 flex-grow">
+          <div class="flex flex-row justify-between">
+            <div class="flex flex-row">
+              <img [src]="post.authorImageURL || 'assets/foto-perfil.svg'" alt="" class="flex h-14 bg-verde-gramado rounded-full p-[2px]">
+              <div class="flex flex-col px-3">
+                <h1 class="text-base">{{post.author}}</h1>
+                <p class="text-xs text-slate-400">
+                  {{post.followers}} seguidores
+                </p>
+                <div class="flex flex-row">
+                  <p class="text-xs text-slate-400 mr-2">
+                    {{ post.createdAt | timeAgo }}
+                  </p>
+                  <img src="assets/globo.svg" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="flex self-start relative">
+              <img src="assets/aba-publi.svg" class="flex p-3">
+            </div>
+          </div>
+      
+          <div class="mt-4">
+            <h2 class="text-xs">
+              {{post.text}}
+            </h2>
+          </div>
+      
+          <div *ngIf="post.imageURL" class="flex justify-center mt-3 w-full h-full">
+            <img class="w-[100%]" [src]="post.imageURL">
+          </div>
+      
+          <div class="flex justify-between mt-2 text-xs text-slate-600">
+            <p>{{post.likes.length || 0}} {{post.likes.length == 1 ? 'curtida' : 'curtidas'}}</p>
+            <div class="flex">
+              <img src="assets/coments-legend.svg">
+              <p class="ml-1">{{post.commentsNumber || 0}} comentários</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <div *ngIf="inGallery" class="p-3">
+    <span *ngIf="profile.attachments.length == 0" class="grid place-items-center text-center text-sm w-100 mt-2">
+      Sem mídia na galeria.
+    </span>
+
+    <div class="grid grid-cols-3 w-full gap-1">
+      <img *ngFor="let attachmentImageURL of profile.attachments" [src]="attachmentImageURL" class="aspect-square object-cover rounded-sm">
+    </div>
+  </div>
+
+  <!-- BG do Modal: Foto de Perfil -->
+  <div *ngIf="isUploadPictureModalOpen" class="grid place-items-center w-screen h-screen bg-[#00000090] fixed top-0 left-0 z-50">
+    <!-- Modal -->
+    <div class="flex flex-col place-items-center justify-start w-[95%] h-[480px] bg-white rounded-xl">
+      <div class="grid place-items-center w-[95%] h-5/6 mt-3 border-2 border-dashed border-verde-gramado rounded-sm" (click)="profilePictureInput.click()">
+        <div class="flex flex-col items-center justify-center">
+          <!-- Para editar a foto de perfil -->
+          <input #profilePictureInput type="file" accept="image/*" (change)="onSelectFile($event)" hidden>
+          
+          <img *ngIf="!uploadImagePreviewURL" src="assets/camera.svg" alt="" class="size-32">
+          <img *ngIf="uploadImagePreviewURL" [src]="uploadImagePreviewURL" alt="" class="size-48 object-contain rounded-full">
+          
+          <h1 class="font-medium text-xl text-verde-gramado mt-2">
+            Clique para enviar uma nova foto
+          </h1>
+          <h2 *ngIf="uploadImagePreviewURL" class="text-verde-gramado text-center">
+            Se quer trocar pela foto inserida, clique em "Confirmar"
+          </h2>
+        </div>
+      </div>
+
+      <div class="flex flex-row w-full justify-between grow p-2">
+        <button class="w-1/2 h-full text-xl bg-red-500 text-white font-medium rounded-xl rounded-r-none active:brightness-105" (click)="setUploadPictureModalVisibility(false)">
+          Cancelar
+        </button>
+        <button class="w-1/2 h-full text-xl bg-green-500 text-white font-medium rounded-xl rounded-l-none active:brightness-105" (click)="onConfirmProfilePic()">
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BG do Modal: Editar função -->
+  <div *ngIf="isEditModalOpen" class="grid place-items-center w-screen h-screen bg-[#00000090] fixed top-0 left-0 z-50">
+    <!-- Modal -->
+    <div class="p-2 flex flex-col place-items-center justify-start w-[95%] h-fit bg-white rounded-xl">    
+      <div class="grid place-items-center p-2 w-full">
+        <h2 class="text-left w-full text-base text-[#636363] ml-2 mb-1">
+          Escolha sua função no campo:
+        </h2>
+
+        <mat-form-field class="w-full mt-2 mb-[-18px]">
+          <mat-label>Função</mat-label>
+          <mat-select [(value)]="roleSelected" [disabled]="disableSelect.value">
+            <mat-option value="Goleiro">Goleiro</mat-option>
+            <mat-option value="Zagueiro">Zagueiro</mat-option>
+            <mat-option value="Lateral">Lateral</mat-option>
+            <mat-option value="Volante">Volante</mat-option>
+            <mat-option value="Meia">Meia</mat-option>
+            <mat-option value="Ponta">Ponta</mat-option>
+            <mat-option value="Atacante">Atacante</mat-option>
+            <mat-option value="Fixo">Fixo</mat-option>
+            <mat-option value="Ala">Ala</mat-option>
+            <mat-option value="Pivô">Pivô</mat-option>
+          </mat-select>
+        </mat-form-field>
+            
+        <div class="flex flex-row w-full justify-start">
+          <section>
+            <mat-checkbox [(ngModel)]="advertiserChecked" [formControl]="disableSelect">
+              Sou anunciante
+            </mat-checkbox>
+          </section>
+        </div>
+      </div>
+
+      <div class="flex flex-row w-full justify-between items-end p-2">
+        <button class="w-1/2 h-16 text-xl bg-red-500 text-white font-medium rounded-xl rounded-r-none active:brightness-105" (click)="setEditInfoModalVisibility(false)">
+          Cancelar
+        </button>
+        <button class="w-1/2 h-16 text-xl bg-green-500 text-white font-medium rounded-xl rounded-l-none active:brightness-105" (click)="onConfirmEditRole()">
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

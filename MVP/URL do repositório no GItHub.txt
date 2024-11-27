@@ -1,1 +1,3 @@
 https://github.com/caioreigot/varzeou
+
+IMPORTANTE: o repositório é privado por conter token de serviço de email. Colocamos o email "carlos.pereira70@fatec.sp.gov.br" como colaborador do repositório, mas caso não consiga acessar, subimos o repositório nessa pasta, ele se chama "varzeou-codigo-fonte" sem o token do email

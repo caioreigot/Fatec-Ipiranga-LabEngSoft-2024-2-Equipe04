@@ -1,0 +1,74 @@
+<div class="w-[100%] flex justify-center h-full overflow-auto">
+  <div class="p-5 w-[100%] max-w-[860px] h-full overflow-auto">
+
+    <h1 class="text-6xl md:text-8xl transition-all text-center text-verde-gramado font-medium my-10">
+      Varzeou!
+    </h1>
+  
+    <!-- <div class="flex flex-row justify-between">
+      <button class="p-2 active:brightness-110">
+        <img src="assets/arrow-left.svg" class="translate-x-[-8px]">
+      </button>
+  
+      <button class="p-2 active:brightness-110">
+        <img src="assets/X.svg" class="translate-x-[8px]">
+      </button>
+    </div> -->
+  
+    <div class="flex flex-row mt-4">
+      <a ngClass="active" routerLink="/login" routerLinkActive="active" class="text-verde-gramado [&.active]:bg-verde-gramado [&.active]:text-white text-center w-[50%] font-medium border-[2px] border-verde-gramado rounded-l-[4px] py-2 active:brightness-110">
+        Login
+      </a>
+      <a routerLink="/register" routerLinkActive="active" class="[&.active]:bg-verde-gramado [&.active]:text-white text-center w-[50%] flex-grow border-[2px] border-verde-gramado text-verde-gramado font-medium rounded-r-[4px] py-2 active:brightness-110">
+        Cadastro
+      </a>
+    </div>
+  
+    <h1 class="my-6 text-verde-gramado text-2xl font-medium">
+      Entrar
+    </h1>
+  
+    <div class="flex flex-col gap-5">
+  
+      <div class="flex flex-col text-xs font-medium">
+        <span class="mb-1">
+          Email
+        </span>
+        <input #email type="email" placeholder="exemplo@email.com" class="text-sm p-3 rounded-[4px] border-[1px] border-black">
+      </div>
+  
+      <div class="flex flex-col text-xs font-medium">
+        <span class="mb-1">
+          Senha
+        </span>
+  
+        <div class="w-[100%] relative">
+          <input #password [type]="passwordState == 'hidden' ? 'password' : 'text'" placeholder="Digite sua senha" class="w-[100%] text-sm p-3 rounded-[4px] border-[1px] border-black">
+          <button (click)="onPasswordVisibilityClick()" class="absolute right-2 w-12 h-[100%] grid place-items-center top-0">
+            <img *ngIf="passwordState == 'hidden'" src="assets/eye-closed.svg" class="translate-y-[2px]">
+            <img *ngIf="passwordState == 'visible'" src="assets/eye-open.svg" class="translate-y-[1px] w-[26px]">
+          </button>
+        </div>
+        
+        <button routerLink="/register" class="text-[13px] text-verde-gramado font-medium py-2 w-full text-center mt-3">
+          Não tenho uma conta, quero me cadastrar
+        </button>
+      </div>
+  
+      <button (click)="onEnterClick(email.value, password.value)" class="w-[100%] bg-verde-gramado py-2 font-medium text-white text-lg rounded-[4px] active:brightness-110">
+        {{loginInProgress ? '...' : 'Entrar'}}
+      </button>
+  
+      <span class="w-[100%] text-center text-[#D4D4D4] my-2 mb-4">
+        ou
+      </span>
+  
+      <button (click)="googleLogin()" class="flex flex-row justify-center gap-2 w-[75%] min-w-64 items-center self-center text-base bg-verde-gramado py-2 px-3 font-medium text-white text-lg rounded-[4px] active:brightness-110">
+        <img src="assets/google-g.svg">
+        <span class="w-full text-base">Fazer login pelo Google</span>
+      </button>
+  
+    </div>
+  
+  </div>
+</div>

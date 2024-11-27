@@ -1,0 +1,50 @@
+<div *ngIf="user" class="flex flex-col w-full h-full overflow-hidden">
+  <div class="flex bg-verde-header py-4 px-6 h-24">
+    <img [src]="user.profile_picture_url || 'assets/foto-perfil.svg'" alt="" class="h-16 rounded-full bg-verde-gramado">
+    <div class="p-2 ml-2">
+      <h1 class="font-bold">
+        {{user.first_name}} {{user.last_name}}
+      </h1>
+      
+      <p>
+        {{user.soccer_role}}
+      </p>
+    </div>
+  </div>
+
+  <div #chatContainer id="conversa" class="mt-1 overflow-auto flex-grow">
+
+    <div *ngFor="let message of messages" class="flex justify-end m-3" [class.flex-row-reverse]="!message.ownMessage">
+      <div class="flex flex-col bg-verde-mensagem p-3 px-4 rounded-xl items-start">
+        <h1 *ngIf="!message.ownMessage" class="font-semibold text-base">
+          {{ message.senderFullname }}
+        </h1>
+        <h2 style="word-break: break-word" class="text-base">
+          {{ message.text }}
+        </h2>
+        <span class="text-[11px] mt-1 font-medium text-[#3d533d]">
+          {{ message.createdAt | formatDate }}
+        </span>
+      </div>
+      <div *ngIf="!message.ownMessage" class="mx-2">
+        <img [src]="message.senderProfilePicture || 'assets/foto-perfil.svg'" alt="" class="min-h-12 h-12 max-h-12 min-w-12 w-12 rounded-full bg-verde-gramado">
+      </div>
+    </div>
+
+  </div>
+  
+  <!-- Input de Mensagem -->
+  <div class="h-16 w-full p-4 border-t bg-white flex items-center">
+    <input
+      type="text"
+      [(ngModel)]="novaMensagem"
+      placeholder="Digite sua mensagem..."
+      class="flex-grow border rounded-full py-2 px-4 mr-2"
+      (keydown.enter)="enviarMensagem()" />
+    
+    <button (click)="enviarMensagem()" class="bg-verde-header text-white rounded-full p-2">
+      Enviar
+    </button>
+  </div>
+
+</div>
